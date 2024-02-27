@@ -6,7 +6,8 @@ metadata:
     app: vprodb
 spec:
   selector: 
-    app: vprodb
+    matchLabels:
+      app: vprodb
   replicas: 1
   template:
     metadata:
@@ -31,7 +32,7 @@ spec:
       nodeSelector:
         zone: us-east-1a
       volumes:
-        - name:  vpro-db-data
+        - name: vpro-db-data
           awsElasticBlockStore: 
             volumeID: vol-064a0ff77b89ea82c
             fsType: ext4
