@@ -7,6 +7,6 @@ spec:
     app:  vpromc
   type:  ClusterIP
   ports:
-    - port:  11211
-      targetPort:  vpromc-port
+    - port:  11211 # the service would be accessed through this port 
+      targetPort:  vpromc-port #and redirected to the deployment port
       protocol: TCP

@@ -1,13 +1,15 @@
+#A cluster iP service definition file for database deployment
+#It's to allow internal traffic 
 apiVersion: v1
 kind: Service
 metadata:
-  name:  vprodb
+  name:  vprodb # the deployment name the service is being used for 
 spec:
   selector:
     app: vprodb
   type: ClusterIP
   ports:
-    - port: 3306
+    - port: 3306 #the service would be accessed on this port 
       targetPort: vprodb-port
       protocol: TCP
 

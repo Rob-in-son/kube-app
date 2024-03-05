@@ -1,3 +1,4 @@
+#Database deployment definition file 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,31 +17,31 @@ spec:
     spec:
       containers:
         - name: name
-          image: vprofile/vprofiledb
+          image: vprofile/vprofiledb #already containerized image 
           volumeMounts:
             - name:  vpro-db-data
               mountPath:  /var/lib/mysql
-          ports:
+          ports: # specifies the container port to connect to 
             - name: vprodb-port
               containerPort: 3306
-          env:
+          env:  #define your environment veriables and specify the ones from the secret file too 
             - name: MYSQL_ROOT_PASSWORD
               valueFrom: 
                 secretKeyRef: 
                   name: app-secret
                   key: db-pass
       nodeSelector:
-        zone: us-east-1a
+        zone: us-east-1a # This ensures that the databse is scheduled only in a node with this same label 
       volumes:
         - name: vpro-db-data
           awsElasticBlockStore: 
-            volumeID: vol-064a0ff77b89ea82c
+            volumeID: vol-02cfef0e862b39268
             fsType: ext4
-      initContainers:
+      initContainers: #This container is used to remove the lost+found folder from the mysql db before the main pod runs
         - name: busybox
           image: busybox:latest
           args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
-          volumeMounts:
+          volumeMounts: #You definitely have to mount the already created volume it'd work with and specify the mountpath
             - name: vpro-db-data
               mountPath: /var/lib/mysql
 

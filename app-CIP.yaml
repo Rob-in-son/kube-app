@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name:  vproapp # the deployment name the service is being used for 
+spec:
+  selector:
+    app: vproapp
+  type: LoadBalancer
+  ports:
+    - port: 80 #the service would be accessed on this port 
+      targetPort: vproapp-port
+      protocol: TCP
